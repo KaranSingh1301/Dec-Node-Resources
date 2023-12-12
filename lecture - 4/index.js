@@ -1,8 +1,10 @@
 //ES5
 const express = require("express");
 const mongoose = require("mongoose");
+const userModel = require("./userModel");
 
 const app = express();
+const PORT = process.env.PORT || 8000;
 const MONGO_URI =
   "mongodb+srv://karan:12345@cluster0.22wn2.mongodb.net/DecemberTestDb";
 
@@ -60,11 +62,35 @@ app.get("/api/html", (req, res) => {
   );
 });
 
-app.post("/api/form_submit", (req, res) => {
-  console.log(req.body);
-  return res.send("Form submitted successfully");
+app.post("/api/form_submit", async (req, res) => {
+  const nameC = req.body.name;
+  const emailC = req.body.email;
+  const passwordC = req.body.password;
+
+  const userObj = new userModel({
+    //schema : client
+    name: nameC,
+    email: emailC,
+    password: passwordC,
+  });
+
+  try {
+    const userDb = await userObj.save();
+    console.log(userDb);
+    return res.send({
+      status: 201,
+      message: "User creates successfully",
+      data: userDb,
+    });
+  } catch (error) {
+    return res.send({
+      status: 500,
+      message: "Database error",
+      error: error,
+    });
+  }
 });
 
-app.listen(8000, () => {
-  console.log("Server is running on port 8000");
+app.listen(PORT, () => {
+  console.log(`Server is running on PORT : ${PORT}`);
 });
