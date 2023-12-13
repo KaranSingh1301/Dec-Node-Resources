@@ -92,6 +92,14 @@ app.post("/api/form_submit", async (req, res) => {
   });
 
   try {
+    const data = await userModel.findOne({ email: emailC });
+    if (data) {
+      return res.send({
+        status: 400,
+        message: "Email already exits",
+      });
+    }
+
     const userDb = await userObj.save();
     console.log(userDb);
 
