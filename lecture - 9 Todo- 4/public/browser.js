@@ -61,3 +61,4 @@ document.getElementById("item_list").insertAdjacentHTML(
 );
 
 //client(axios)<---api----->Server(express) <----> mongodb
+//cors
