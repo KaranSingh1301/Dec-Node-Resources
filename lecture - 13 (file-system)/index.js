@@ -87,6 +87,9 @@ server.on("request", (req, res) => {
       if (err) throw err;
       return res.end(data);
     });
+
+    // res.writeHead(200, {"Content-Type": "text/html"})
+    // res.write(``)
   }
 });
 
